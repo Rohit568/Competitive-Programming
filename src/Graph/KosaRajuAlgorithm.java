@@ -62,15 +62,16 @@ public class KosaRajuAlgorithm{
 		 
 		 boolean v[] = new boolean[6];
 		 int count = 0;
-		 for(int i=0; i<5; i++)
-		 {
-			 if(v[i] != true) {
-				 countDfs(graph, v, i);
+		 while(!stack.isEmpty()) {
+			 int t = stack.pop();
+			 if(v[t] != true) {
+				 countDfs(graph, v, t);
 				 count++;
 				 System.out.println();
 			 }
-			 
 		 }
+			 
+		
 		 
 		 
 	}
