@@ -2,51 +2,92 @@ package Graph;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 class Graph{
-	ArrayList<ArrayList<Integer>>  arr;
+	
+	LinkedList<Integer> adj[];
 	Graph(int v)
 	{
+		adj = new LinkedList[v+1];
 		for(int i=0; i<v; i++)
-			arr.add(new ArrayList());
+			adj[i] = new LinkedList<>();
 	}
-	
 }
-public class FindArticulationPoint {
-	static int timer = 0;
-	
-	public static void addEdge(Graph g, int u, int v)
+
+class FindArticulationPoint{
+	static int time = 0;
+	public static void addEdge(Graph g, int src, int des)
 	{
-		g.arr.get(u).add(v);
-		g.arr.get(v).add(u);
+		g.adj[src].add(des);
+		g.adj[des].add(src);
 	}
-    public static void disdfs(Graph g, int dis[], int i)
-    {
-    	dis[i] = ++timer;
-    	for(int child: g.arr.get(i))
-    	{
-    		if(dis[child]!=0)
-    			disdfs(g, dis, child);
-    	}
-    }
-    
-    public static void lowdfs(Graph g, int low[], int i, int dis[], boolean vis[])
-    {
-        vis[i] = true;
-        int ans = Integer.MAX_VALUE;
-        
-        for(int  child : g.arr.get(i))
-        {
-        	if(vis[child] == false)
-        	{
-        		if(dis[child] < ans)
-        			
-        	}
-        }
-    }
+	
+	public static void solve(Graph g, int u, boolean vis[], int par[], int low[], int dis[], boolean ap[]) {
+		
+		vis[u] = true;
+		low[u] = dis[u] = ++time;
+		
+		int children = 0;
+		
+		Iterator<Integer> itr = g.adj[u].iterator();
+		
+		while(itr.hasNext())
+		{
+			int v = itr.next();
+			
+			if(!vis[v])
+			{
+				children++;
+				par[v] = u;
+				solve(g, v, vis, par, low, dis, ap);
+				low[u] = Math.min(low[u], low[v]);
+				
+				
+				if(par[u] == -1 && children>1)
+					ap[u] = true;
+				if(par[u] !=-1 && low[v] >=dis[u])
+					ap[u] = true;
+				
+				
+			}
+			else if(v != par[u])
+			{
+			    low[u] = Math.min(low[u], dis[v]);	
+			}
+		}
+		
+	}
+	
+	public static void AP(Graph g)
+	{
+		boolean vis[] = new boolean[6];
+		int par[] = new int[6];
+		int low[] = new int[6];
+		int dis[] = new int[6];
+		boolean ap[] = new boolean[6];
+			
+		for(int i=0; i<6; i++)
+		{
+			par[i] = -1;
+			ap[i] = false;
+			vis[i] = false;
+		}
+		
+		for(int i=0; i<5; i++)
+			if(vis[i]!=true)
+		solve(g, 0, vis, par, low, dis, ap);
+		
+		for(int i=0; i<5; i++)
+		{
+			if(ap[i] == true)
+				System.out.print(i+" ");
+		}
+	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
 		int s = 5;
 		Graph g = new Graph(s);
 		
@@ -57,17 +98,6 @@ public class FindArticulationPoint {
 		addEdge(g, 2, 4);
 		addEdge(g, 3, 4);
 		
-		int low[] = new int[5];
-		int dis[] = new int[5];
-		
-		boolean vis[] = new boolean[5+1];
-		disdfs(g, dis, 0);
-		for(int i=0; i<5; i++)
-		{
-			Arrays.fill(vis, false);
-		    lowdfs(g, low, i, dis, vis);
-		}
-		
+		AP(g);
 	}
-
 }
