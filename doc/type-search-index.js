@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"DynamicProgramming","l":"MaximumLongest"},{"p":"DynamicProgramming","l":"MaximumLongest.XandY"}]

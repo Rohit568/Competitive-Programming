@@ -41,6 +41,7 @@ public class UVa11094 {
 		{
 			fact[i] =(fact[i-1] * i)%m;
 			invfact[i] = (invfact[i-1]*modInverse(i))%m;
+			System.out.println(fact[i] +"  " + invfact[i]);
 		}
 	}
 	
