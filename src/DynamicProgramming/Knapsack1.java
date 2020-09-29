@@ -39,7 +39,7 @@ class Knapsack1{
            dp[i][j] = 0;
          else
          {
-             if( j+w[i]<=cap)
+             if( w[i-1]<=j)
                 dp[i][j] = Math.max(dp[i-1][j], v[i] + dp[i-1][j-w[i-1]]);
               else
                  dp[i][j] = dp[i-1][j];
