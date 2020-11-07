@@ -10,16 +10,13 @@ public class RemoveGame {
 		Scanner sc = new Scanner(System.in);
 		
 		int n = sc.nextInt();
-		int arr[] = new int[n];
+		long arr[] = new long[n];
 		
-		for(int i=0; i<n; i++) arr[i] = sc.nextInt();
-		
-		
-		int player1  =0;
-		int player2 = 0;
+		for(int i=0; i<n; i++) arr[i] = sc.nextLong();
 		
 		boolean sw = false;
-		int ans = letsSolve(arr, 0, n-1, 0,0, sw);
+		long dp[][] = new long[n+1][n+1];
+		long ans = letsSolve(arr, 0, n-1, dp);
 		
 		System.out.println(ans);
 		
@@ -27,34 +24,26 @@ public class RemoveGame {
 
 	}
 	
-	public static int letsSolve(int arr[], int i, int j,  int sum, int sum2, boolean sw)
+	public static long letsSolve(long arr[], int i, int j, long dp[][])
 	{
 		if(i==j)
-			return sum + arr[i];
-		else
-		{
-			sw = sw ^ true;
-			int ffirst = 0;
-			int fsecond = 0;
-			int sfirst = 0; 
-			int ssecond = 0;
-			int ans = 0;
-			
-			if(sw == true)
-			{
-				ffirst = letsSolve(arr, i+1, j, sum+arr[i], sum2,sw);
-				fsecond = letsSolve(arr, i, j-1, sum + arr[j],sum2,  sw);
-				System.out.println(arr[i] + " " + arr[j]+ " ll");
-			}
-			else
-			{
-				sfirst = arr[i] + letsSolve(arr, i+1, j,sum, sum2 + arr[i],sw);
-				ssecond = arr[j] + letsSolve(arr, i, j-1,sum, sum2 + arr[j], sw);
-				System.out.println(arr[i] + " " + arr[j]+ " kk");
-				
-			}
-			return Math.max(sum, sum2);
-		}
+			return arr[i];
+		if(i + 1 == j)
+			return Math.max(arr[i], arr[j]);
+		
+		if(dp[i][j] != 0)
+			return dp[i][j];
+		
+		long vi = 0;
+		long v2 = 0;
+		
+		vi = arr[i] + Math.min(letsSolve(arr, i+2, j, dp), letsSolve(arr, i+1, j-1, dp));
+		v2 = arr[j] + Math.min(letsSolve(arr, i+1, j-1, dp), letsSolve(arr, i, j-2, dp));
+		
+		dp[i][j] = Math.max(vi, v2);
+		
+		return Math.max(vi, v2);
+		
 	}
 
 }

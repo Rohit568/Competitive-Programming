@@ -1,21 +1,12 @@
 package Sheet;
 
 import java.util.ArrayDeque;
+import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
 
-class Pair
-{
-	String first;
-	boolean second;
-	Pair(String first, boolean second)
-	{
-		this.first = first;
-		this.second = second;
-	}
-	
-}
+
 public class TicTacToe1 {
 	
 
@@ -34,56 +25,55 @@ public class TicTacToe1 {
 				String s = sc.next();
 				board = board + s;
 			}
-		
+		    
+			StringBuilder start = new StringBuilder(".........");
+			boolean player = false;
+			Queue<Pair<StringBuilder, Boolean>> qu = new LinkedList<>();
 			
-			ArrayDeque<Pair> q = new ArrayDeque<>();
-			String start = ".........";
-			//StringBuilder sb = new StringBuilder(start);
-		    Pair p = new Pair(start, true);
+			qu.add(new Pair(start, player));
+			String ans = "no";
+			while(!qu.isEmpty())
+			{
+				Pair t = qu.peek();
+				StringBuilder s = (StringBuilder)t.getKey();
+				boolean pr = (boolean)t.getValue();
+				qu.poll();
+				
+				System.out.println(s.toString()+"1");
+				
+				if(isWin(s.toString()))
+					 continue;
+					
+				if(board.equals(s.toString()));
+				{
+				 ans = "yes";
+				
+				}
+				
+				
+				for(int i=0; i<9; i++)
+				{
+					if(s.charAt(i)=='.')
+					{
+						System.out.println(s);
+						s.setCharAt(i,pr?'o':'x');
+						pr = pr^true;
+						System.out.println(s);
+						if(s.charAt(i) == board.charAt(i))
+						{
+						qu.add(new Pair(s, pr));
+						}
+						s.setCharAt(i, '.');
+					}
+						
+				}
+				
+				
+			}
+			System.out.println(ans);
+			
 		    
 		    
-		    q.addLast(p);
-		    
-		    String ans = "no";
-		    while(!q.isEmpty())
-		    {
-		       Pair s=  q.pollFirst();
-		       String cur = s.first;
-		       boolean player = s.second;
-		       
-		       System.out.println(cur.toString().substring(0,3) + "\n" + cur.toString().substring(3, 6) + "\n" + cur.toString().substring(6, 9)+"\n");
-	    	    
-		       
-		       if(board.equals(cur)) {
-		    	   ans = "yes";
-		    	   break;
-		       }
-		       
-		       if(isWin(cur))
-		       continue;
-		       
-		       
-		       for(int i=0; i<9; i++)
-		       {
-		    	   if(cur.charAt(i)== '.')
-		    	   {
-		    		   
-		    		   //char c = player?'x':'';
-		    		   StringBuilder sb = new StringBuilder(cur);
-		    		   sb.setCharAt(i, player?'x':'o');
-		    		   System.out.println(sb.toString().substring(0,3) + "\n" + sb.toString().substring(3, 6) + "\n" + sb.toString().substring(6, 9)+"\n");
-		    	      if(cur.charAt(i) == board.charAt(i)) {
-		    		     q.addLast(new Pair(sb.toString(), player^true));
-		    	      }
-		    	     // System.out.println(cur.toString().substring(0,3) + "\n" + cur.toString().substring(3, 6) + "\n" + cur.toString().substring(6, 9)+"\n");
-		    	      sb.setCharAt(i,'.');
-		    	   }
-		    	   
-		       }
-		       
-		    }
-		    
-		    System.out.println(ans); 
 		}
 	}
 	 
@@ -107,3 +97,4 @@ public class TicTacToe1 {
 	
 
 }
+
