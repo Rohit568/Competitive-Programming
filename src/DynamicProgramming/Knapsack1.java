@@ -20,34 +20,35 @@ class Knapsack1{
       v[i] = Integer.parseInt(str[1]);
     }
     
-    int res = Solution(w, v, N, cap);
+    long res = Solution(w, v, N, cap);
     
     System.out.println(res);
   }
   
-  public static int Solution(int w[], int v[], int N, int cap)
+  public static long Solution(int w[], int v[], int N, int cap)
   {
     
     
-    int dp[][] = new int[N+1][cap + 1];
+    HashMap<String, Long>  dp = new HashMap<>();
     
     for(int i=0; i<=N; i++)
     {
       for(int j = 0; j<=cap; j++)
       {
          if(i==0 ||j==0)
-           dp[i][j] = 0;
-         else
-         {
-             if( w[i-1]<=j)
-                dp[i][j] = Math.max(dp[i-1][j], v[i] + dp[i-1][j-w[i-1]]);
+           dp.put(i+"|"+j, (long)0 );
+         else if( w[i-1]<=j) {
+               long ans = Math.max(dp.get((i-1)+"|"+j), v[i-1] + dp.get((i-1)+"|"+(j-w[i-1])));
+               
+               dp.put(i+"|"+j, ans);
+         }
               else
-                 dp[i][j] = dp[i-1][j];
+            	  dp.put(i+"|"+j, dp.get(i-1+"|"+j));
                                                                
-        }                                                            
+                                                                    
      }                                                      
                                                                
    }
-       return dp[N][cap];
+       return dp.get(N+"|"+cap);
   }  
 }

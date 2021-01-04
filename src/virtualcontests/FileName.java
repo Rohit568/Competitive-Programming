@@ -1,9 +1,6 @@
 package virtualcontests;
 
 import java.util.*;
-
-
-
 public class FileName {
 
 	public static void main(String[] args) {
@@ -35,7 +32,7 @@ public class FileName {
 				}
 			}
 			
-			if(i == str.length()-1  && count > 3 && flag == 0)
+			if(i == str.length()-1  && count >= 3 && flag == 0)
 			{
 				ans = ans + count-2;
 			}
